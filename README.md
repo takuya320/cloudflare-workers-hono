@@ -1,8 +1,13 @@
-```
-npm install
-npm run dev
+# cloudflare workers hono
+
+```console
+pnpm i
 ```
 
+```console
+pnpm run dev
 ```
-npm run deploy
+
+```console
+pnpm run deploy
 ```
