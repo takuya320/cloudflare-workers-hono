@@ -2,7 +2,7 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 import { requestId } from 'hono/request-id'
-import test from './test'
+import sample from './sample'
 
 const app = new Hono()
 
@@ -37,6 +37,6 @@ app.get('/', (c) => {
   })
 })
 
-app.route('/api/test', test)
+app.route('/api/sample', sample)
 
 export default app
