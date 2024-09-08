@@ -1,7 +1,9 @@
 {
   "scripts": {
     "dev": "wrangler dev src/index.ts",
-    "deploy": "wrangler deploy --minify src/index.ts"
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "lint": "prettier . --write",
+    "check": "prettier . --check"
   },
   "dependencies": {
     "hono": "^4.0.5",
@@ -10,6 +12,12 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240208.0",
     "@types/uuid": "^10.0.0",
+    "prettier": "^3.3.3",
     "wrangler": "^3.25.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }

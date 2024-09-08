@@ -17,12 +17,17 @@ app.use(
   '*',
   cors({
     origin: 'http://localhost:3000',
-    allowHeaders: ['ConTent-Type', 'Access-Control-Allow-Origin', 'X-Custom-Header', 'Upgrade-Insecure-Requests'],
+    allowHeaders: [
+      'ConTent-Type',
+      'Access-Control-Allow-Origin',
+      'X-Custom-Header',
+      'Upgrade-Insecure-Requests',
+    ],
     allowMethods: ['GET', 'HEAD', 'OPTIONS'],
     exposeHeaders: ['X-Custom-Header', 'Content-Disposition'],
     maxAge: 600,
     credentials: true,
-  })
+  }),
 )
 
 app.get('/', (c) => {
