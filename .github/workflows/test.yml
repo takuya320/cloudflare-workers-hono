@@ -15,7 +15,7 @@ jobs:
           pnpm_version=$(jq -r '.engines.pnpm' package.json)
           echo "PNPM_VERSION=${pnpm_version}" >> "$GITHUB_ENV"
       - name: Setup pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: ${{ env.PNPM_VERSION }}
       - uses: actions/setup-node@v4
