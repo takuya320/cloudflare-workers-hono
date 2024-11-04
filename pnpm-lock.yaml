@@ -12,8 +12,8 @@ importers:
         specifier: 4.6.7
         version: 4.6.7
       uuid:
-        specifier: 10.0.0
-        version: 10.0.0
+        specifier: 11.0.1
+        version: 11.0.1
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20241022.0
@@ -487,8 +487,8 @@ packages:
   unenv-nightly@2.0.0-20241018-011344-e666fcf:
     resolution: {integrity: sha512-D00bYn8rzkCBOlLx+k1iHQlc69jvtJRT7Eek4yIGQ6461a2tUBjngGZdRpqsoXAJCz/qBW0NgPting7Zvg+ysg==}
 
-  uuid@10.0.0:
-    resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
+  uuid@11.0.1:
+    resolution: {integrity: sha512-wt9UB5EcLhnboy1UvA1mvGPXkIIrHSu+3FmUksARfdVw9tuPf3CH/CohxO0Su1ApoKAeT6BVzAJIvjTuQVSmuQ==}
     hasBin: true
 
   workerd@1.20241022.0:
@@ -899,7 +899,7 @@ snapshots:
       pathe: 1.1.2
       ufo: 1.5.4
 
-  uuid@10.0.0: {}
+  uuid@11.0.1: {}
 
   workerd@1.20241022.0:
     optionalDependencies:
