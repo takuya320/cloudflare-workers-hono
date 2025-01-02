@@ -1,5 +1,6 @@
 import { Hono } from 'hono'
-import { v7 as uuidv7 } from 'uuid'
+import { HTTPException } from 'hono/http-exception'
+import { v7 as uuidV7 } from 'uuid'
 
 const sample = new Hono()
 
@@ -17,7 +18,7 @@ sample.get('/now', (c) => {
 
 sample.get('/uuid', (c) => {
   return c.json({
-    uuid: uuidv7(),
+    uuid: uuidV7(),
   })
 })
 
@@ -42,6 +43,10 @@ sample.get('/header', (c) => {
     userAgent,
     host,
   })
+})
+
+sample.get('/error', (c) => {
+  throw new HTTPException(400, { message: 'Bad Request' })
 })
 
 export default sample
