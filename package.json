@@ -6,11 +6,11 @@
     "check": "prettier . --check"
   },
   "dependencies": {
-    "hono": "4.6.15",
-    "uuid": "11.0.3"
+    "hono": "4.6.16",
+    "uuid": "11.0.4"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20241224.0",
+    "@cloudflare/workers-types": "4.20241230.0",
     "@types/uuid": "10.0.0",
     "prettier": "3.4.2",
     "wrangler": "3.99.0"
