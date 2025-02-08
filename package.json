@@ -3,7 +3,8 @@
     "dev": "wrangler dev src/index.ts",
     "deploy": "wrangler deploy --minify src/index.ts",
     "lint": "prettier . --write",
-    "check": "prettier . --check"
+    "check": "prettier . --check",
+    "test": "vitest run"
   },
   "dependencies": {
     "hono": "4.6.20",

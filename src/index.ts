@@ -38,6 +38,9 @@ app.get('/', (c) => {
     requestId: c.get('requestId'),
   })
 })
+app.get('/health', (c) => {
+  return c.text('OK')
+})
 
 app.route('/api/sample', sample)
 app.route('/api/task', task)
