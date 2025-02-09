@@ -26,3 +26,5 @@ jobs:
         run: pnpm i --frozen-lockfile --prefer-offline --strict-peer-dependencies --ignore-scripts
       - name: Lint
         run: pnpm check
+      - name: Test
+        run: pnpm test
