@@ -7,15 +7,15 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "hono": "4.9.0",
+    "hono": "4.9.4",
     "uuid": "11.1.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20250810.0",
+    "@cloudflare/workers-types": "4.20250823.0",
     "@types/uuid": "10.0.0",
     "prettier": "3.6.2",
     "vitest": "3.2.4",
-    "wrangler": "4.28.1"
+    "wrangler": "4.32.0"
   },
   "packageManager": "pnpm@9.1.2",
   "engines": {
