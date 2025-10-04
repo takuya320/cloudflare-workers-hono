@@ -17,10 +17,10 @@
     "vitest": "3.2.4",
     "wrangler": "4.38.0"
   },
-  "packageManager": "pnpm@9.1.2",
+  "packageManager": "pnpm@10.14.0",
   "engines": {
-    "node": "20.13.1",
-    "pnpm": "9.1.2"
+    "node": "24.4.1",
+    "pnpm": "10.14.0"
   },
   "prettier": {
     "semi": false,
