@@ -1,30 +1,43 @@
 name: Test
 
 on:
+  push:
+    branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
-  frontend-test:
+  test:
+    name: Lint and Test
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v5
-      - name: Set pnpm version
-        shell: bash
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Extract Node.js and pnpm versions
+        id: versions
         run: |
-          pnpm_version=$(jq -r '.engines.pnpm' package.json)
-          echo "PNPM_VERSION=${pnpm_version}" >> "$GITHUB_ENV"
+          echo "node-version=$(jq -r '.engines.node' package.json)" >> $GITHUB_OUTPUT
+          echo "pnpm-version=$(jq -r '.engines.pnpm' package.json)" >> $GITHUB_OUTPUT
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: ${{ env.PNPM_VERSION }}
-      - uses: actions/setup-node@v5
+          version: ${{ steps.versions.outputs.pnpm-version }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: ${{ steps.versions.outputs.node-version }}
           cache: 'pnpm'
+
       - name: Install dependencies
-        run: pnpm i --frozen-lockfile --prefer-offline --strict-peer-dependencies --ignore-scripts
-      - name: Lint
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linting
         run: pnpm check
-      - name: Test
+
+      - name: Run tests
         run: pnpm test
