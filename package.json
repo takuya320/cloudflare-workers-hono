@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260111.0",
-    "@types/uuid": "10.0.0",
+    "@types/uuid": "11.0.0",
     "prettier": "3.7.4",
     "vitest": "4.0.16",
     "wrangler": "4.58.0"
