@@ -15,7 +15,7 @@
     "@types/uuid": "11.0.0",
     "prettier": "3.8.0",
     "vitest": "4.0.17",
-    "wrangler": "4.59.2"
+    "wrangler": "4.59.3"
   },
   "packageManager": "pnpm@10.14.0",
   "engines": {
