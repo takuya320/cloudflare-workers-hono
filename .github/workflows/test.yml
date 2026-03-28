@@ -23,7 +23,7 @@ jobs:
           echo "pnpm-version=$(jq -r '.engines.pnpm' package.json)" >> $GITHUB_OUTPUT
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v5
         with:
           version: ${{ steps.versions.outputs.pnpm-version }}
 
