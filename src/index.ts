@@ -53,7 +53,7 @@ app.onError((err, c) => {
   }
   return c.json(
     {
-      error: err.message,
+      error: 'Internal Server Error',
     },
     500,
   )
