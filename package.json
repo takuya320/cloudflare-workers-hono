@@ -11,11 +11,11 @@
     "uuid": "13.0.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20260329.1",
+    "@cloudflare/workers-types": "4.20260411.1",
     "@types/uuid": "11.0.0",
-    "prettier": "3.8.1",
-    "vitest": "4.1.2",
-    "wrangler": "4.78.0"
+    "prettier": "3.8.2",
+    "vitest": "4.1.4",
+    "wrangler": "4.81.1"
   },
   "packageManager": "pnpm@10.14.0",
   "engines": {
