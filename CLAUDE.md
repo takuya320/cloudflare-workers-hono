@@ -23,6 +23,7 @@ Package manager is **pnpm** (v10.14.0). Use `pnpm i` to install dependencies.
 **Entry point**: `src/index.ts` — Creates the Hono app, registers middleware (requestId, logger, CORS), defines root routes (`/`, `/health`), mounts sub-routers, and sets up global error handling.
 
 **Route modules** are mounted under `/api`:
+
 - `src/sample/index.ts` → `/api/sample` — Demo endpoints (timestamps, UUID generation, params, query strings, headers, error handling)
 - `src/task/index.ts` → `/api/task` — Simple in-memory task CRUD
 
