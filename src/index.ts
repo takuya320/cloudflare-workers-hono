@@ -20,8 +20,7 @@ app.use(
   cors({
     origin: 'http://localhost:3000',
     allowHeaders: [
-      'ConTent-Type',
-      'Access-Control-Allow-Origin',
+      'Content-Type',
       'X-Custom-Header',
       'Upgrade-Insecure-Requests',
     ],
