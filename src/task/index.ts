@@ -26,7 +26,7 @@ task.get('/', (c) => {
   })
 })
 
-task.get('/add', (c) => {
+task.post('/add', (c) => {
   console.log('taskMap', taskMap)
   const task = new Task(uuidV7())
   taskMap.set(task.id, task)
