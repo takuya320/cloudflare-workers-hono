@@ -26,5 +26,10 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all"
+  },
+  "pnpm": {
+    "overrides": {
+      "vite": "^7.3.2"
+    }
   }
 }
