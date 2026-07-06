@@ -13,9 +13,9 @@
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260629.1",
     "@types/uuid": "11.0.0",
-    "prettier": "3.9.1",
+    "prettier": "3.9.4",
     "vitest": "4.1.9",
-    "wrangler": "4.105.0"
+    "wrangler": "4.107.0"
   },
   "packageManager": "pnpm@10.14.0",
   "engines": {
