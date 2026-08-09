@@ -7,7 +7,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "hono": "4.12.32",
+    "hono": "4.12.34",
     "uuid": "14.0.1"
   },
   "devDependencies": {
