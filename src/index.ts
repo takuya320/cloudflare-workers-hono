@@ -45,7 +45,7 @@ app.get('/health', (c) => {
 app.route('/api/sample', sample)
 app.route('/api/task', task)
 
-app.onError((err, c) => {
+export const globalErrorHandler: ErrorHandler = (err, c) => {
   if (err instanceof ApiError) {
     console.error(
       `[ApiError] ${err.statusCode}:`,
@@ -57,25 +57,20 @@ app.onError((err, c) => {
   }
 
   if (err instanceof HTTPException) {
-    console.error(
-      `[HTTPException] ${err.status}:`,
-      err.message,
-      '\n',
-      err.stack,
-    )
+    console.error(`[HTTPException] ${err.status}:`, err.message, '\n', err.stack)
     return err.getResponse()
   }
 
-  // Log unknown/unhandled errors fully for internal debugging
   console.error('[UnhandledError]:', err)
 
-  // Return a generic error message to the client, preventing any leakage of sensitive data
   return c.json(
     {
       error: 'Internal Server Error',
     },
     500,
   )
-})
+}
+
+app.onError(globalErrorHandler)
 
 export default app
