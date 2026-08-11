@@ -4,6 +4,7 @@ import { v7 as uuidV7 } from 'uuid'
 const task = new Hono()
 
 import type { Task } from './types'
+import { ApiError } from '../error/ApiError'
 import sampleData from './data.json'
 
 const taskMap = new Map<string, Task>()
@@ -27,7 +28,11 @@ task.get('/:id', (c) => {
   const id = c.req.param('id')
   const t = taskMap.get(id)
   if (!t) {
-    return c.json({ error: 'Task not found' }, 404)
+    throw new ApiError(
+      404,
+      'Task not found',
+      `Task ID ${id} was not found during GET request`,
+    )
   }
   return c.json({ task: t })
 })
@@ -42,7 +47,11 @@ task.post('/', async (c) => {
   }
 
   if (!body.title) {
-    return c.json({ error: 'Title is required' }, 400)
+    throw new ApiError(
+      400,
+      'Title is required',
+      'Task creation failed due to missing title',
+    )
   }
 
   const newTask: Task = {
@@ -61,7 +70,11 @@ task.put('/:id', async (c) => {
   const id = c.req.param('id')
   const t = taskMap.get(id)
   if (!t) {
-    return c.json({ error: 'Task not found' }, 404)
+    throw new ApiError(
+      404,
+      'Task not found',
+      `Task ID ${id} was not found during PUT request`,
+    )
   }
 
   let body: { title?: string; completed?: boolean } = {}
@@ -82,7 +95,11 @@ task.put('/:id', async (c) => {
 task.delete('/:id', (c) => {
   const id = c.req.param('id')
   if (!taskMap.has(id)) {
-    return c.json({ error: 'Task not found' }, 404)
+    throw new ApiError(
+      404,
+      'Task not found',
+      `Task ID ${id} was not found during DELETE request`,
+    )
   }
   taskMap.delete(id)
   return c.json({ success: true })

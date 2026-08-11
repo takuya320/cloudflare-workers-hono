@@ -5,6 +5,7 @@ import { logger } from 'hono/logger'
 import { requestId } from 'hono/request-id'
 import sample from './sample'
 import task from './task'
+import { ApiError } from './error/ApiError'
 
 const app = new Hono()
 
@@ -45,11 +46,30 @@ app.route('/api/sample', sample)
 app.route('/api/task', task)
 
 app.onError((err, c) => {
-  console.error(err)
+  if (err instanceof ApiError) {
+    console.error(
+      `[ApiError] ${err.statusCode}:`,
+      err.internalMessage || err.clientMessage,
+      '\n',
+      err.stack,
+    )
+    return c.json({ error: err.clientMessage }, err.statusCode)
+  }
+
   if (err instanceof HTTPException) {
-    // Get the custom response
+    console.error(
+      `[HTTPException] ${err.status}:`,
+      err.message,
+      '\n',
+      err.stack,
+    )
     return err.getResponse()
   }
+
+  // Log unknown/unhandled errors fully for internal debugging
+  console.error('[UnhandledError]:', err)
+
+  // Return a generic error message to the client, preventing any leakage of sensitive data
   return c.json(
     {
       error: 'Internal Server Error',
