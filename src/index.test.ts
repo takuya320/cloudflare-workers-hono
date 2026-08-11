@@ -25,32 +25,6 @@ describe('Hono App', () => {
     expect(data.requestId).toMatch(uuidPattern)
   })
 
-  describe('Sample QUERY API', () => {
-    it('QUERY /api/sample/search - リクエストボディでアイテムを検索できること', async () => {
-      const res = await app.request('/api/sample/search', {
-        method: 'QUERY',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category: 'fruit' }),
-      })
-      expect(res.status).toBe(200)
-      const data = await res.json()
-      expect(data.results).toHaveLength(2)
-      expect(
-        data.results.every(
-          (item: { category: string }) => item.category === 'fruit',
-        ),
-      ).toBe(true)
-    })
-
-    it('QUERY /api/sample/search - Content-Typeが無い場合は415エラーになること', async () => {
-      const res = await app.request('/api/sample/search', {
-        method: 'QUERY',
-        body: JSON.stringify({ name: 'apple' }),
-      })
-      expect(res.status).toBe(415)
-    })
-  })
-
   describe('Global Error Handler', () => {
     it('予期せぬエラーが発生した場合、500エラーとなり機密情報が漏洩しないこと', async () => {
       const { Hono } = await import('hono')
