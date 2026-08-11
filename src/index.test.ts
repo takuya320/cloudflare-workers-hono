@@ -30,9 +30,9 @@ describe('Hono App', () => {
       const { Hono } = await import('hono')
       const { globalErrorHandler } = await import('../src/index')
       const testApp = new Hono()
-      
+
       testApp.onError(globalErrorHandler)
-      
+
       testApp.get('/force-error', () => {
         throw new Error('This is a highly secret database error')
       })
@@ -41,7 +41,7 @@ describe('Hono App', () => {
       console.error = () => {}
 
       const res = await testApp.request('/force-error')
-      
+
       console.error = originalConsoleError
 
       expect(res.status).toBe(500)
