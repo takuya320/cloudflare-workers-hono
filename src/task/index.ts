@@ -9,13 +9,19 @@ import sampleData from './data.json'
 
 const taskMap = new Map<string, Task>()
 
-// Initialize with sample data from JSON
-sampleData.forEach((t) => {
-  taskMap.set(t.id, {
-    ...t,
-    createdAt: new Date(t.createdAt),
+export const resetTasks = () => {
+  taskMap.clear()
+  // Initialize with sample data from JSON
+  sampleData.forEach((t) => {
+    taskMap.set(t.id, {
+      ...t,
+      createdAt: new Date(t.createdAt),
+    })
   })
-})
+}
+
+// Initial seed
+resetTasks()
 
 // GET / - Read all tasks
 task.get('/', (c) => {
