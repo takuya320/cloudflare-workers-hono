@@ -1,0 +1,14 @@
+[
+  {
+    "id": "0194459b-1345-719e-9762-b9e382d62153",
+    "title": "Sample Task 1: Review Hono documentation",
+    "completed": false,
+    "createdAt": "2026-08-11T05:00:00.000Z"
+  },
+  {
+    "id": "0194459b-1345-719e-9762-b9e382d62154",
+    "title": "Sample Task 2: Implement CRUD endpoints",
+    "completed": true,
+    "createdAt": "2026-08-11T05:00:00.000Z"
+  }
+]

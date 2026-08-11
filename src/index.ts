@@ -24,7 +24,7 @@ app.use(
       'X-Custom-Header',
       'Upgrade-Insecure-Requests',
     ],
-    allowMethods: ['GET', 'HEAD', 'OPTIONS'],
+    allowMethods: ['GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
     exposeHeaders: ['X-Custom-Header', 'Content-Disposition'],
     maxAge: 600,
     credentials: true,
