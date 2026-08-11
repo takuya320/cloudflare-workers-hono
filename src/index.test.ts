@@ -1,5 +1,5 @@
 import { describe, expect, it, test } from 'vitest'
-import app from '../src/index'
+import app from '@/index'
 
 test('example test', () => {
   expect(1 + 1).toBe(2)
@@ -28,7 +28,7 @@ describe('Hono App', () => {
   describe('Global Error Handler', () => {
     it('予期せぬエラーが発生した場合、500エラーとなり機密情報が漏洩しないこと', async () => {
       const { Hono } = await import('hono')
-      const { globalErrorHandler } = await import('../src/index')
+      const { globalErrorHandler } = await import('@/index')
       const testApp = new Hono()
 
       testApp.onError(globalErrorHandler)

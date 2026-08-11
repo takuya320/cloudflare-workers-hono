@@ -1,11 +1,11 @@
-import { Hono } from 'hono'
+import { type ErrorHandler, Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { HTTPException } from 'hono/http-exception'
 import { logger } from 'hono/logger'
 import { requestId } from 'hono/request-id'
-import sample from './sample'
-import task from './task'
-import { ApiError } from './error/ApiError'
+import { ApiError } from '@/error/ApiError'
+import sample from '@/sample'
+import task from '@/task'
 
 const app = new Hono()
 

@@ -1,11 +1,13 @@
+import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
 import { v7 as uuidV7 } from 'uuid'
 
 const task = new Hono()
 
-import type { Task } from './types'
-import { ApiError } from '../error/ApiError'
+import { ApiError } from '@/error/ApiError'
 import sampleData from './data.json'
+import type { Task } from './schema'
+import { createTaskSchema, updateTaskSchema } from './schema'
 
 const taskMap = new Map<string, Task>()
 
@@ -78,58 +80,56 @@ task.get('/:id', (c) => {
 })
 
 // POST / - Create a new task
-task.post('/', async (c) => {
-  let body: { title?: string } = {}
-  try {
-    body = await c.req.json()
-  } catch (e) {
-    // ignore
-  }
+task.post(
+  '/',
+  zValidator('json', createTaskSchema, (result, c) => {
+    if (!result.success) {
+      return c.json({ error: result.error.issues[0].message }, 400)
+    }
+  }),
+  async (c) => {
+    const body = c.req.valid('json')
 
-  if (!body.title) {
-    throw new ApiError(
-      400,
-      'Title is required',
-      'Task creation failed due to missing title',
-    )
-  }
+    const newTask: Task = {
+      id: uuidV7(),
+      title: body.title,
+      completed: false,
+      createdAt: new Date(),
+    }
+    taskMap.set(newTask.id, newTask)
 
-  const newTask: Task = {
-    id: uuidV7(),
-    title: body.title,
-    completed: false,
-    createdAt: new Date(),
-  }
-  taskMap.set(newTask.id, newTask)
-
-  return c.json({ task: newTask }, 201)
-})
+    return c.json({ task: newTask }, 201)
+  },
+)
 
 // PUT /:id - Update a task
-task.put('/:id', async (c) => {
-  const id = c.req.param('id')
-  const t = taskMap.get(id)
-  if (!t) {
-    throw new ApiError(
-      404,
-      'Task not found',
-      `Task ID ${id} was not found during PUT request`,
-    )
-  }
+task.put(
+  '/:id',
+  zValidator('json', updateTaskSchema, (result, c) => {
+    if (!result.success) {
+      return c.json({ error: result.error.issues[0].message }, 400)
+    }
+  }),
+  async (c) => {
+    const id = c.req.param('id')
+    const t = taskMap.get(id)
+    if (!t) {
+      throw new ApiError(
+        404,
+        'Task not found',
+        `Task ID ${id} was not found during PUT request`,
+      )
+    }
 
-  let body: { title?: string; completed?: boolean } = {}
-  try {
-    body = await c.req.json()
-  } catch (e) {
-    // ignore
-  }
+    const body = c.req.valid('json')
 
-  if (body.title !== undefined) t.title = body.title
-  if (body.completed !== undefined) t.completed = body.completed
+    if (body.title !== undefined) t.title = body.title
+    if (body.completed !== undefined) t.completed = body.completed
 
-  taskMap.set(id, t)
-  return c.json({ task: t })
-})
+    taskMap.set(id, t)
+    return c.json({ task: t })
+  },
+)
 
 // DELETE /:id - Delete a task
 task.delete('/:id', (c) => {

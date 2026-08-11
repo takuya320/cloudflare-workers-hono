@@ -8,6 +8,10 @@
     "types": ["@cloudflare/workers-types"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

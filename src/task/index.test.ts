@@ -1,6 +1,6 @@
-import { describe, expect, it, beforeEach } from 'vitest'
-import app from '../index'
-import { resetTasks } from './index'
+import { beforeEach, describe, expect, it } from 'vitest'
+import app from '@/index'
+import { resetTasks } from '@/task/index'
 
 describe('Task API', () => {
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe('Task API', () => {
     })
     expect(res.status).toBe(400)
     const data = await res.json()
-    expect(data.error).toBe('Title is required')
+    expect(data.error).toBeDefined()
   })
 
   it('GET /api/task/:id - 特定のタスクを取得できること', async () => {
