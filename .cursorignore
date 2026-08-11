@@ -1,0 +1,8 @@
+.dev.vars*
+.env*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+secrets*.json
