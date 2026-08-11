@@ -36,6 +36,41 @@ sample.get('/query', (c) => {
   })
 })
 
+const sampleItems = [
+  { id: 1, name: 'apple', category: 'fruit' },
+  { id: 2, name: 'banana', category: 'fruit' },
+  { id: 3, name: 'carrot', category: 'vegetable' },
+  { id: 4, name: 'broccoli', category: 'vegetable' },
+]
+
+sample.query('/search', async (c) => {
+  const contentType = c.req.header('Content-Type')
+  if (!contentType?.startsWith('application/json')) {
+    throw new HTTPException(415, {
+      message: 'Content-Type must be application/json',
+    })
+  }
+
+  let body: { name?: string; category?: string } = {}
+  try {
+    body = await c.req.json()
+  } catch {
+    throw new HTTPException(400, { message: 'Invalid JSON body' })
+  }
+
+  let results = sampleItems
+  if (body.name !== undefined) {
+    const name = body.name.toLowerCase()
+    results = results.filter((item) => item.name.includes(name))
+  }
+  if (body.category !== undefined) {
+    const category = body.category.toLowerCase()
+    results = results.filter((item) => item.category === category)
+  }
+
+  return c.json({ query: body, results })
+})
+
 sample.get('/header', (c) => {
   const userAgent = c.req.header('User-Agent')
   const host = c.req.header('Host')

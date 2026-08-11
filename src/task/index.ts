@@ -23,6 +23,40 @@ export const resetTasks = () => {
 // Initial seed
 resetTasks()
 
+// QUERY /search - Search tasks with a request body (RFC 10008)
+task.query('/search', async (c) => {
+  const contentType = c.req.header('Content-Type')
+  if (!contentType?.startsWith('application/json')) {
+    throw new ApiError(
+      415,
+      'Content-Type must be application/json',
+      'QUERY /search rejected due to missing or unsupported Content-Type',
+    )
+  }
+
+  let body: { title?: string; completed?: boolean } = {}
+  try {
+    body = await c.req.json()
+  } catch {
+    throw new ApiError(
+      400,
+      'Invalid JSON body',
+      'QUERY /search failed to parse request body',
+    )
+  }
+
+  let tasks = Array.from(taskMap.values())
+  if (body.title !== undefined) {
+    const title = body.title.toLowerCase()
+    tasks = tasks.filter((t) => t.title.toLowerCase().includes(title))
+  }
+  if (body.completed !== undefined) {
+    tasks = tasks.filter((t) => t.completed === body.completed)
+  }
+
+  return c.json({ tasks })
+})
+
 // GET / - Read all tasks
 task.get('/', (c) => {
   const tasks = Array.from(taskMap.values())

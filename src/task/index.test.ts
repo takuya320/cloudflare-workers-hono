@@ -52,7 +52,7 @@ describe('Task API', () => {
 
     // Act: 取得
     const res = await app.request(`/api/task/${targetId}`)
-    
+
     // Assert
     expect(res.status).toBe(200)
     const data = await res.json()
@@ -83,7 +83,7 @@ describe('Task API', () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ completed: true, title: 'Updated Task' }),
     })
-    
+
     // Assert
     expect(res.status).toBe(200)
     const data = await res.json()
@@ -116,7 +116,7 @@ describe('Task API', () => {
     const res = await app.request(`/api/task/${targetId}`, {
       method: 'DELETE',
     })
-    
+
     // Assert
     expect(res.status).toBe(200)
     const data = await res.json()
@@ -134,5 +134,45 @@ describe('Task API', () => {
     expect(res.status).toBe(404)
     const data = await res.json()
     expect(data.error).toBe('Task not found')
+  })
+
+  it('QUERY /api/task/search - リクエストボディでタスクを検索できること', async () => {
+    const res = await app.request('/api/task/search', {
+      method: 'QUERY',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed: false }),
+    })
+    expect(res.status).toBe(200)
+    const data = await res.json()
+    expect(data.tasks).toBeInstanceOf(Array)
+    expect(data.tasks.every((t: { completed: boolean }) => !t.completed)).toBe(
+      true,
+    )
+  })
+
+  it('QUERY /api/task/search - titleで部分一致検索できること', async () => {
+    const res = await app.request('/api/task/search', {
+      method: 'QUERY',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: 'sample' }),
+    })
+    expect(res.status).toBe(200)
+    const data = await res.json()
+    expect(data.tasks.length).toBeGreaterThan(0)
+    expect(
+      data.tasks.every((t: { title: string }) =>
+        t.title.toLowerCase().includes('sample'),
+      ),
+    ).toBe(true)
+  })
+
+  it('QUERY /api/task/search - Content-Typeが無い場合は415エラーになること', async () => {
+    const res = await app.request('/api/task/search', {
+      method: 'QUERY',
+      body: JSON.stringify({ completed: true }),
+    })
+    expect(res.status).toBe(415)
+    const data = await res.json()
+    expect(data.error).toBe('Content-Type must be application/json')
   })
 })

@@ -25,7 +25,7 @@ app.use(
       'X-Custom-Header',
       'Upgrade-Insecure-Requests',
     ],
-    allowMethods: ['GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE'],
+    allowMethods: ['GET', 'HEAD', 'OPTIONS', 'POST', 'PUT', 'DELETE', 'QUERY'],
     exposeHeaders: ['X-Custom-Header', 'Content-Disposition'],
     maxAge: 600,
     credentials: true,
@@ -57,7 +57,12 @@ export const globalErrorHandler: ErrorHandler = (err, c) => {
   }
 
   if (err instanceof HTTPException) {
-    console.error(`[HTTPException] ${err.status}:`, err.message, '\n', err.stack)
+    console.error(
+      `[HTTPException] ${err.status}:`,
+      err.message,
+      '\n',
+      err.stack,
+    )
     return err.getResponse()
   }
 
