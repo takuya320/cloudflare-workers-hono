@@ -86,3 +86,7 @@ GitHub Actions で次を実行しています（`.github/workflows/`）。
 - [Cloudflare Workers](https://developers.cloudflare.com/workers/) — 実行環境のドキュメント
 - [Wrangler configuration](https://developers.cloudflare.com/workers/wrangler/configuration/) — `wrangler.toml` のリファレンス
 - [Biome](https://biomejs.dev/) — Lint / Formatter
+
+## License
+
+[MIT](./LICENSE)
