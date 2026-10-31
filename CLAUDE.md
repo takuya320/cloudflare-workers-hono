@@ -12,8 +12,8 @@ Cloudflare Workers API built with the Hono web framework and TypeScript. The app
 pnpm run dev      # Start local dev server (wrangler dev)
 pnpm run deploy   # Deploy to Cloudflare Workers
 pnpm test         # Run all tests (vitest run)
-pnpm run lint     # Format code with Prettier
-pnpm run check    # Check formatting without modifying files
+pnpm run lint     # Lint and format with Biome (auto-fix)
+pnpm run check    # Lint and format check without modifying files
 ```
 
 Package manager is **pnpm** (v10.14.0). Use `pnpm i` to install dependencies.
@@ -33,9 +33,31 @@ Each route module exports a Hono instance that gets mounted via `app.route()`.
 
 ## Code Style
 
-Prettier config (in package.json): no semicolons, single quotes, trailing commas. No ESLint — Prettier is the only formatter.
+Biome config (`biome.json`): no semicolons, single quotes, trailing commas. Biome is the only linter/formatter (no ESLint or Prettier).
 
-CI runs `pnpm check` (formatting) and `pnpm test` on pushes/PRs to `main`.
+CI runs `pnpm check` and `pnpm test` on pushes/PRs to `main`.
+
+## Conventions
+
+Solo project: no external contributors are expected, so these rules exist for consistency, not onboarding.
+
+**Branches**: changes to `main` go through a PR. Name branches `<type>/<short-description>` (e.g. `feat/task-pagination`), with `type` matching the commit type.
+
+**Commits**: Conventional Commits, in English.
+
+- Types: `feat` / `fix` / `docs` / `test` / `refactor` / `chore` / `ci` / `build`
+- Subject: imperative, lowercase, ≤72 chars, no trailing period
+- Body explains **why**, not what (the diff shows what)
+- Breaking changes: `type!:` plus a `BREAKING CHANGE:` line in the body
+- One purpose per commit
+
+**Pull requests**: one purpose per PR; title in the same format as a commit subject; description follows `.github/pull_request_template.md` (Japanese is fine). CI (`pnpm check` and `pnpm test`) must pass before merging.
+
+**Code comments**: English, and only for **why** (non-obvious constraints, workaround reasons, deliberate behavior). Express what the code does through naming and types. `TODO` / `FIXME` carry a reason or issue number.
+
+**Tests**: test behavior, not implementation; cover error paths; inject time and randomness so tests stay deterministic.
+
+**Security**: secrets only via environment variables (`.dev.vars` locally); validate all input server-side with Zod. Vulnerability reports: see `SECURITY.md`.
 
 ## Cloudflare Workers
 
