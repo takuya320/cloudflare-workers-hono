@@ -34,7 +34,7 @@ src/
 
 ### 前提条件
 
-- Node.js 24.4.1 / pnpm 10.14.0（`package.json` の `engines` で固定）
+- Node.js 26.13.0 / pnpm 10.14.0（`package.json` の `engines` で固定）
 
 ### セットアップと起動
 
