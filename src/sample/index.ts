@@ -45,7 +45,7 @@ sample.get('/header', (c) => {
   })
 })
 
-sample.get('/error', (c) => {
+sample.get('/error', () => {
   throw new HTTPException(400, { message: 'Bad Request' })
 })
 
