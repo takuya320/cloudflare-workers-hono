@@ -1,5 +1,9 @@
 # cloudflare-workers-hono
 
+[![Test](https://github.com/takuya320/cloudflare-workers-hono/actions/workflows/test.yml/badge.svg)](https://github.com/takuya320/cloudflare-workers-hono/actions/workflows/test.yml)
+[![Audit](https://github.com/takuya320/cloudflare-workers-hono/actions/workflows/audit.yml/badge.svg)](https://github.com/takuya320/cloudflare-workers-hono/actions/workflows/audit.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
 [Hono](https://hono.dev/) と TypeScript で実装した [Cloudflare Workers](https://developers.cloudflare.com/workers/) 向けの REST API です。
 
 ## Overview
