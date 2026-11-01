@@ -43,7 +43,7 @@ CI runs `pnpm check` and `pnpm test` on pushes/PRs to `main`.
 
 ## Language
 
-- **Agent-facing files are written in English**: `AGENTS.md`, `CLAUDE.md`, `.agents/`, `.claude/` (skills and rules), code comments, and commit messages.
+- **Agent-facing files are written in English**: `AGENTS.md`, `CLAUDE.md`, `.claude/` (skills), code comments, and commit messages.
 - **Human-facing documents are written in Japanese**: `README.md`, `SECURITY.md`, `.github/pull_request_template.md`, and PR descriptions.
 - Replies, plans, and review reports addressed to the maintainer are in Japanese.
 
