@@ -29,13 +29,23 @@ Package manager is **pnpm** (v10.14.0). Use `pnpm i` to install dependencies.
 
 Each route module exports a Hono instance that gets mounted via `app.route()`.
 
-**Testing**: Tests live in `src/index.test.ts`. Uses Vitest with Hono's `app.request()` for integration testing (no HTTP server needed).
+**Errors**: Throw `ApiError` (`src/error/ApiError.ts`) for expected failures. It separates the message returned to the client from the internal message that is only logged. The global error handler in `src/index.ts` turns it into a response.
+
+**Validation**: Request input is validated with Zod schemas (`src/task/schema.ts`) via `@hono/zod-validator`.
+
+**Testing**: Tests are colocated as `*.test.ts` files (e.g. `src/index.test.ts`, `src/task/index.test.ts`). Uses Vitest with Hono's `app.request()` for integration testing (no HTTP server needed).
 
 ## Code Style
 
 Biome config (`biome.json`): no semicolons, single quotes, trailing commas. Biome is the only linter/formatter (no ESLint or Prettier).
 
 CI runs `pnpm check` and `pnpm test` on pushes/PRs to `main`.
+
+## Language
+
+- **Agent-facing files are written in English**: `AGENTS.md`, `CLAUDE.md`, `.agents/`, `.claude/` (skills and rules), code comments, and commit messages.
+- **Human-facing documents are written in Japanese**: `README.md`, `SECURITY.md`, `.github/pull_request_template.md`, and PR descriptions.
+- Replies, plans, and review reports addressed to the maintainer are in Japanese.
 
 ## Conventions
 
@@ -51,7 +61,7 @@ Solo project: no external contributors are expected, so these rules exist for co
 - Breaking changes: `type!:` plus a `BREAKING CHANGE:` line in the body
 - One purpose per commit
 
-**Pull requests**: one purpose per PR; title in the same format as a commit subject; description follows `.github/pull_request_template.md` (Japanese is fine). CI (`pnpm check` and `pnpm test`) must pass before merging.
+**Pull requests**: one purpose per PR; title in the same format as a commit subject; description follows `.github/pull_request_template.md` (in Japanese). CI (`pnpm check` and `pnpm test`) must pass before merging.
 
 **Code comments**: English, and only for **why** and **why not**: non-obvious constraints, workaround reasons, deliberate behavior, and improvements knowingly skipped, with the reason (e.g. "~300 rows and a one-off script, so the N+1 is acceptable"). Express what the code does through naming and types. `TODO` / `FIXME` carry a reason or issue number; use `FIXME` when knowingly taking on technical debt.
 

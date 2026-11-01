@@ -1,74 +1,72 @@
 ---
 name: security-review
-description: ソースコードの脆弱性を探してセキュリティレビューを行う
-argument-hint: '[ファイルパスまたは空で全体]'
+description: Review source code for security vulnerabilities
+argument-hint: '[file path, or empty for everything]'
 allowed-tools: Read Glob Grep
 ---
 
-# セキュリティレビュー
+# Security Review
 
-対象のソースコードを読み、脆弱性を洗い出してレビューを行う。
+Read the target source code, identify vulnerabilities, and report them. Write the report in Japanese.
 
-## 対象
+## Scope
 
-- `$ARGUMENTS` が指定されている場合はそのファイル/ディレクトリのみレビューする
-- 指定がなければ `src/` 配下の全ソースコードを対象とする
+- If `$ARGUMENTS` is given, review only that file or directory
+- Otherwise, review all source code under `src/`
 
-## レビュー観点
+## What to look for
 
-以下の観点で脆弱性を探すこと:
+### Input and output
 
-### 入力・出力
+- Missing validation of user input (params, query, headers, request body)
+- SQL injection, NoSQL injection
+- XSS (cross-site scripting)
+- Command injection, path traversal
+- Internal details leaked through error messages
 
-- ユーザー入力（パラメータ、クエリ、ヘッダー、リクエストボディ）のバリデーション不足
-- SQLインジェクション、NoSQLインジェクション
-- XSS（クロスサイトスクリプティング）
-- コマンドインジェクション、パストラバーサル
-- エラーメッセージによる内部情報の漏洩
+### Authentication and authorization
 
-### 認証・認可
+- Missing or bypassable authentication
+- Missing authorization checks (IDOR, etc.)
+- Flawed session management
+- Missing CSRF protection
 
-- 認証の欠如・バイパス
-- 認可チェックの不足（IDOR等）
-- セッション管理の不備
-- CSRF対策の欠如
+### API design
 
-### API設計
+- State changes via GET requests
+- Missing rate limiting
+- Incorrect CORS settings (origins, methods, headers)
+- Improper exposure of sensitive data
 
-- GETリクエストでの状態変更
-- レート制限の欠如
-- CORS設定の誤り（オリジン、メソッド、ヘッダー）
-- 機密データの不適切な露出
+### Data handling
 
-### データ管理
+- Hard-coded secrets (API keys, tokens, passwords)
+- Unbounded in-memory data growth
+- Sensitive data written to logs
+- Unsafe deserialization
 
-- ハードコードされたシークレット（APIキー、トークン、パスワード）
-- メモリ上の無制限データ蓄積
-- 機密情報のログ出力
-- 安全でないデシリアライゼーション
+### Dependencies and configuration
 
-### 依存関係・設定
+- Dependencies with known vulnerabilities
+- Missing security headers
+- Leftover debug code
+- Environment configuration (e.g. development settings left in production)
 
-- 既知の脆弱性を持つ依存パッケージ
-- セキュリティヘッダーの欠如
-- デバッグ用コードの残存
-- 環境設定（開発用設定の本番残存等）
+## Output format
 
-## 出力フォーマット
+Report in this form:
 
-以下の形式でレポートする:
+1. Order findings by severity (High → Medium → Low)
+2. For each finding, include:
+   - Severity (High / Medium / Low)
+   - Location (file path:line number)
+   - The problematic code snippet
+   - A concrete description of the risk
+   - A suggested fix
+3. End with a summary table
 
-1. 深刻度順（High → Medium → Low）に並べる
-2. 各項目に以下を含める:
-   - 深刻度（High / Medium / Low）
-   - 該当箇所（ファイルパス:行番号）
-   - 問題のコードスニペット
-   - 具体的なリスクの説明
-   - 修正の提案
-3. 最後にまとめの表を出力する
+## Notes
 
-## 注意事項
-
-- 推測ではなく、コードに基づいた具体的な指摘を行うこと
-- 一般的なベストプラクティスの列挙ではなく、実際に存在する問題を指摘すること
-- 修正提案は具体的なコード例を含めること
+- Base findings on the code, not on speculation
+- Report problems that actually exist, not a generic list of best practices
+- Include concrete code in each suggested fix
