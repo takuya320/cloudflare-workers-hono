@@ -19,7 +19,6 @@ describe('Hono App', () => {
     expect(data).toHaveProperty('message')
     expect(data.message).toBe('Hello, World!')
     expect(data).toHaveProperty('requestId')
-    // UUIDの正規表現パターン
     const uuidPattern =
       /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
     expect(data.requestId).toMatch(uuidPattern)

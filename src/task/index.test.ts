@@ -4,7 +4,7 @@ import { resetTasks } from '@/task/index'
 
 describe('Task API', () => {
   beforeEach(() => {
-    // 各テストの実行前にモックデータを初期状態にリセットする
+    // Tasks live in module-level memory, so reset them to keep tests isolated
     resetTasks()
   })
 
@@ -41,7 +41,7 @@ describe('Task API', () => {
   })
 
   it('GET /api/task/:id - 特定のタスクを取得できること', async () => {
-    // Arrange: 事前にタスクを作成
+    // Arrange
     const createRes = await app.request('/api/task', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -50,7 +50,7 @@ describe('Task API', () => {
     const createdTask = await createRes.json()
     const targetId = createdTask.task.id
 
-    // Act: 取得
+    // Act
     const res = await app.request(`/api/task/${targetId}`)
 
     // Assert
@@ -122,7 +122,6 @@ describe('Task API', () => {
     const data = await res.json()
     expect(data.success).toBe(true)
 
-    // 削除確認
     const verifyRes = await app.request(`/api/task/${targetId}`)
     expect(verifyRes.status).toBe(404)
   })
