@@ -1,4 +1,5 @@
 import { Hono } from 'hono'
+import { bodyLimit } from 'hono/body-limit'
 import { HTTPException } from 'hono/http-exception'
 import { v7 as uuidV7 } from 'uuid'
 
@@ -44,6 +45,22 @@ sample.get('/header', (c) => {
     host,
   })
 })
+
+// Workers accepts far larger bodies than this API ever needs, so cap it here
+// instead of parsing whatever a client sends.
+const MAX_BODY_BYTES = 1024
+
+sample.post(
+  '/body-limit',
+  bodyLimit({
+    maxSize: MAX_BODY_BYTES,
+    onError: (c) => c.json({ error: 'Payload Too Large' }, 413),
+  }),
+  async (c) => {
+    const body = await c.req.arrayBuffer()
+    return c.json({ bytes: body.byteLength })
+  },
+)
 
 sample.get('/error', () => {
   throw new HTTPException(400, { message: 'Bad Request' })
