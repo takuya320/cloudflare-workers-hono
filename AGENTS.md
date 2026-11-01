@@ -53,7 +53,7 @@ Solo project: no external contributors are expected, so these rules exist for co
 
 **Pull requests**: one purpose per PR; title in the same format as a commit subject; description follows `.github/pull_request_template.md` (Japanese is fine). CI (`pnpm check` and `pnpm test`) must pass before merging.
 
-**Code comments**: English, and only for **why** (non-obvious constraints, workaround reasons, deliberate behavior). Express what the code does through naming and types. `TODO` / `FIXME` carry a reason or issue number.
+**Code comments**: English, and only for **why** and **why not**: non-obvious constraints, workaround reasons, deliberate behavior, and improvements knowingly skipped, with the reason (e.g. "~300 rows and a one-off script, so the N+1 is acceptable"). Express what the code does through naming and types. `TODO` / `FIXME` carry a reason or issue number; use `FIXME` when knowingly taking on technical debt.
 
 **Tests**: test behavior, not implementation; cover error paths; inject time and randomness so tests stay deterministic.
 
