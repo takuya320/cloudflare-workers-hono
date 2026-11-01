@@ -3,11 +3,13 @@ import { cors } from 'hono/cors'
 import { HTTPException } from 'hono/http-exception'
 import { logger } from 'hono/logger'
 import { requestId } from 'hono/request-id'
+import auth from '@/auth'
+import { type AuthEnv, requireApiToken } from '@/auth/middleware'
 import { ApiError } from '@/error/ApiError'
 import sample from '@/sample'
 import task from '@/task'
 
-const app = new Hono()
+const app = new Hono<AuthEnv>()
 
 app.use('*', requestId())
 
@@ -44,6 +46,14 @@ app.get('/health', (c) => {
 
 app.route('/api/sample', sample)
 app.route('/api/task', task)
+
+// Handlers run in registration order, so everything above this line is public
+// and everything below requires a token. The gate sits after the public routes
+// (rather than path-scoped) so unknown paths also answer 401 instead of
+// revealing which routes exist.
+app.use('*', requireApiToken)
+
+app.route('/api/auth', auth)
 
 export const globalErrorHandler: ErrorHandler = (err, c) => {
   if (err instanceof ApiError) {
