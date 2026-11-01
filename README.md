@@ -26,11 +26,14 @@
 src/
 ├── index.ts        # エントリポイント（ミドルウェア、ルート定義、グローバルエラーハンドラ）
 ├── index.test.ts   # アプリ全体のテスト
+├── auth/           # Bearer トークン認証のミドルウェアと、認証が必要なルート
 ├── error/          # ApiError（クライアント向け/内部向けメッセージを分離したエラー）
 └── <feature>/      # 機能ごとのルートモジュール（例: sample/, task/）
 ```
 
 各ルートモジュールは Hono インスタンスを export し、`src/index.ts` で `/api` 配下に `app.route()` でマウントします。`@/` は `src/` へのパスエイリアスです。
+
+`src/index.ts` では、公開ルート（`/`、`/health`、`/api/sample`、`/api/task`）を先に登録し、その後ろで認証ミドルウェアを `app.use('*', ...)` します。Hono はハンドラーを登録順に実行するため、認証が必要になるのはミドルウェアより後ろに登録したルートだけです。未定義のパスも認証前は 401 を返し、ルートの有無を教えません。
 
 > **注意**: CORS は `http://localhost:3000` のみ許可しています（`src/index.ts`）。別のオリジンからアクセスする場合は設定の変更が必要です。
 
@@ -52,6 +55,21 @@ pnpm run dev
 ```bash
 curl http://localhost:8787/health
 # => OK
+```
+
+### 認証用トークンの設定
+
+`/api/auth` 配下は `Authorization: Bearer <token>` が必要です。トークンはシークレット `API_TOKENS` に `名前:トークン` をカンマ区切りで設定します（トークンにコロンを含めても構いませんが、名前には含められません）。未設定や形式不正の場合は、認証なしで通さず 500 を返します。
+
+```bash
+# ローカル: .dev.vars（gitignore 済み）
+echo 'API_TOKENS=alice:local-dev-token' > .dev.vars
+
+curl -H 'Authorization: Bearer local-dev-token' http://localhost:8787/api/auth/me
+# => {"clientName":"alice"}
+
+# 本番
+pnpm exec wrangler secret put API_TOKENS
 ```
 
 ## Development
