@@ -3,6 +3,7 @@ import { cors } from 'hono/cors'
 import { HTTPException } from 'hono/http-exception'
 import { logger } from 'hono/logger'
 import { requestId } from 'hono/request-id'
+import { secureHeaders } from 'hono/secure-headers'
 import auth from '@/auth'
 import { type AuthEnv, requireApiToken } from '@/auth/middleware'
 import { ApiError } from '@/error/ApiError'
@@ -12,6 +13,7 @@ import task from '@/task'
 const app = new Hono<AuthEnv>()
 
 app.use('*', requestId())
+app.use('*', secureHeaders())
 
 const customLogger = (message: string, ...rest: string[]) => {
   console.log('custom log', message, ...rest)

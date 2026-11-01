@@ -24,6 +24,26 @@ describe('Hono App', () => {
     expect(data.requestId).toMatch(uuidPattern)
   })
 
+  describe('Security headers', () => {
+    it('成功レスポンスにセキュリティヘッダーが付くこと', async () => {
+      const res = await app.request('/health')
+      expect(res.headers.get('X-Content-Type-Options')).toBe('nosniff')
+      expect(res.headers.get('Strict-Transport-Security')).not.toBeNull()
+    })
+
+    it('エラーレスポンスにもセキュリティヘッダーが付くこと', async () => {
+      const originalConsoleError = console.error
+      console.error = () => {}
+      try {
+        const res = await app.request('/api/task/not-found')
+        expect(res.status).toBe(404)
+        expect(res.headers.get('X-Content-Type-Options')).toBe('nosniff')
+      } finally {
+        console.error = originalConsoleError
+      }
+    })
+  })
+
   describe('Global Error Handler', () => {
     it('予期せぬエラーが発生した場合、500エラーとなり機密情報が漏洩しないこと', async () => {
       const { Hono } = await import('hono')
