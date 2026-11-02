@@ -41,9 +41,13 @@ Biome config (`biome.json`): no semicolons, single quotes, trailing commas. Biom
 
 CI runs `pnpm check` and `pnpm test` on pushes/PRs to `main`.
 
+## Skills
+
+Skills live in `.agents/skills/<name>/SKILL.md`. `.claude/skills` is a symlink to it, because Claude Code only reads `.claude/skills/`. Add new skills under `.agents/skills/`, never under `.claude/`. `allowed-tools`, `argument-hint`, and `$ARGUMENTS` in the frontmatter and body are Claude Code extensions that other agents may ignore.
+
 ## Language
 
-- **Agent-facing files are written in English**: `AGENTS.md`, `CLAUDE.md`, `.claude/` (skills), code comments, and commit messages.
+- **Agent-facing files are written in English**: `AGENTS.md`, `CLAUDE.md`, `.agents/` (skills), code comments, and commit messages.
 - **Human-facing documents are written in Japanese**: `README.md`, `SECURITY.md`, `.github/pull_request_template.md`, and PR descriptions.
 - Replies, plans, and review reports addressed to the maintainer are in Japanese.
 
